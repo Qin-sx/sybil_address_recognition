@@ -100,7 +100,7 @@ def train_catboost(train_x, train_y, val_x, val_y, save_model_path):
 def main():
     # Example data paths
     raw_data_path = "./data/raw_data/"
-    feature_path = "./data/features/transactions_feature.parquet"
+    feature_path = "./data/features/transactions_feature_partner.parquet"
     save_model_path = "./saved_model/"
     
     # Load data

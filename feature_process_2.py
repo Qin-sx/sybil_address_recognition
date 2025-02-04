@@ -32,6 +32,7 @@ if __name__ == "__main__":
     transaction_raw_file = os.path.join(file_path, "transactions.parquet")
     token_transfer_raw_file = os.path.join(file_path, "token_transfers.parquet")
     dex_swaps_raw_file = os.path.join(file_path, "dex_swaps.parquet")
+    nft_transfers_raw_file = os.path.join(file_path, "nft_transfers.parquet")
     address_df = get_all_candidates(file_path, output_path)
 
     transaction_feature_df = fe.make_transaction_features(transaction_raw_file, output_path, address_df)
@@ -44,4 +45,16 @@ if __name__ == "__main__":
     token_transfer_output_file_name = os.path.join(output_path, "token_transfers_feature.parquet")
     token_transfer_feature_df.to_parquet(token_transfer_output_file_name)
 
+    dex_swap_feature_df = fe.make_dex_swap_features(dex_swaps_raw_file, output_path, address_df)
+    dex_swap_feature_df.fillna(0, inplace=True)
+    dex_swap_output_file_name = os.path.join(output_path, "dex_swaps_feature.parquet")
+    dex_swap_feature_df.to_parquet(dex_swap_output_file_name)
+
+    nft_transfer_feature_df = fe.make_nft_transfer_features(nft_transfers_raw_file, output_path, address_df)
+    nft_transfer_feature_df.fillna(0, inplace=True)
+    nft_transfer_output_file_name = os.path.join(output_path, "nft_transfers_feature.parquet")
+    nft_transfer_feature_df.to_parquet(nft_transfer_output_file_name)
+
     merge_features(transaction_output_file_name, token_transfer_output_file_name)
+    merge_features(transaction_output_file_name, dex_swap_output_file_name)
+    merge_features(transaction_output_file_name, nft_transfer_output_file_name)
